@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000005">
+  <title>吞星者 Star Eater</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- 菜单 -->
+  <div id="menu" class="overlay">
+    <h1 class="title">吞星者</h1>
+    <p class="subtitle">STAR EATER</p>
+    <p class="hint">吞噬小粒子 · 躲避大敌人 · 不断成长</p>
+    <p class="prompt pulse">点击开始</p>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud" class="overlay hidden">
+    <div id="score">0</div>
+    <div id="combo" class="hidden">COMBO x1</div>
+  </div>
+
+  <!-- 游戏结束 -->
+  <div id="gameover" class="overlay hidden">
+    <h2>游戏结束</h2>
+    <div id="final-score">0</div>
+    <div id="high-score">最高分: 0</div>
+    <div id="stats"></div>
+    <p class="prompt pulse">点击重新开始</p>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
