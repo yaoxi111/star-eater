@@ -17,7 +17,27 @@
     <h1 class="title">吞星者</h1>
     <p class="subtitle">STAR EATER</p>
     <p class="hint">吞噬小粒子 · 躲避大敌人 · 不断成长</p>
-    <p class="prompt pulse">点击开始</p>
+    <div class="difficulty-panel">
+      <p class="diff-label">选择难度</p>
+      <div class="diff-buttons">
+        <button class="diff-btn" data-diff="easy">
+          <span class="diff-name">小登</span>
+          <span class="diff-desc">入门体验</span>
+        </button>
+        <button class="diff-btn" data-diff="medium">
+          <span class="diff-name">中登</span>
+          <span class="diff-desc">正常挑战</span>
+        </button>
+        <button class="diff-btn" data-diff="hard">
+          <span class="diff-name">老登</span>
+          <span class="diff-desc">极限生存</span>
+        </button>
+        <button class="diff-btn diff-btn-final" data-diff="asian">
+          <span class="diff-name">亚洲</span>
+          <span class="diff-desc">地狱难度</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- HUD -->
@@ -32,7 +52,14 @@
     <div id="final-score">0</div>
     <div id="high-score">最高分: 0</div>
     <div id="stats"></div>
-    <p class="prompt pulse">点击重新开始</p>
+    <div class="gameover-buttons">
+      <button class="diff-btn go-btn" id="btn-restart">
+        <span class="diff-name">再来一次</span>
+      </button>
+      <button class="diff-btn go-btn" id="btn-back-menu">
+        <span class="diff-name">换难度</span>
+      </button>
+    </div>
   </div>
 
   <script src="js/utils.js"></script>

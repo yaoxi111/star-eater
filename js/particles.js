@@ -124,7 +124,7 @@ class EnemyParticle {
 
 /* ─── 粒子管理器 ─── */
 class ParticleManager {
-  constructor(w, h) {
+  constructor(w, h, config) {
     this.w = w;
     this.h = h;
     this.food = [];
@@ -133,8 +133,25 @@ class ParticleManager {
     this.gameTime = 0;
     this.difficulty = 0;
 
-    this.spawnFood(70);
-    this.spawnEnemies(3);
+    // 难度配置
+    this.cfg = config || {
+      enemySpawnInterval: 4.5,
+      enemySpeedMin: 30,
+      enemySpeedMax: 60,
+      enemyRadiusMin: 16,
+      enemyRadiusMax: 28,
+      enemyInitial: 3,
+      enemyMaxBase: 8,
+      enemyMaxGrow: 2,
+      enemySpeedGrow: 6,
+      enemyRadiusGrow: 1.5,
+      difficultyInterval: 12,
+      foodCount: 70,
+      foodTarget: 70,
+    };
+
+    this.spawnFood(this.cfg.foodCount);
+    this.spawnEnemies(this.cfg.enemyInitial);
   }
 
   resize(w, h) { this.w = w; this.h = h; }
@@ -154,14 +171,16 @@ class ParticleManager {
       else if (side === 2) { x = rand(0, this.w); y = -40; }
       else { x = rand(0, this.w); y = this.h + 40; }
 
-      const radius = rand(16, 28) + this.difficulty * 1.5;
-      this.enemies.push(new EnemyParticle(x, y, radius, this.w, this.h));
+      const radius = rand(this.cfg.enemyRadiusMin, this.cfg.enemyRadiusMax) + this.difficulty * this.cfg.enemyRadiusGrow;
+      const enemy = new EnemyParticle(x, y, radius, this.w, this.h);
+      enemy.speed = rand(this.cfg.enemySpeedMin, this.cfg.enemySpeedMax);
+      this.enemies.push(enemy);
     }
   }
 
   update(dt, player) {
     this.gameTime += dt;
-    this.difficulty = Math.floor(this.gameTime / 12);
+    this.difficulty = Math.floor(this.gameTime / this.cfg.difficultyInterval);
 
     // 更新食物
     for (const f of this.food) f.update(dt);
@@ -170,23 +189,24 @@ class ParticleManager {
     for (const e of this.enemies) e.update(dt, player.x, player.y, player.radius);
 
     // 补充食物
-    const target = 70 + this.difficulty * 4;
+    const target = this.cfg.foodTarget + this.difficulty * 3;
     while (this.food.length < target) {
       this.food.push(new FoodParticle(rand(0, this.w), rand(0, this.h), this.w, this.h));
     }
 
     // 定时生成敌人
     this.spawnTimer += dt;
-    const interval = Math.max(1.8, 4.5 - this.difficulty * 0.25);
+    const interval = Math.max(1.5, this.cfg.enemySpawnInterval - this.difficulty * 0.2);
     if (this.spawnTimer >= interval) {
       this.spawnTimer = 0;
-      const maxE = Math.min(18, 5 + this.difficulty * 2);
+      const maxE = this.cfg.enemyMaxBase + this.difficulty * this.cfg.enemyMaxGrow;
       if (this.enemies.length < maxE) this.spawnEnemies(1);
     }
 
     // 随时间提升敌人速度
+    const speedCap = this.cfg.enemySpeedMax * 1.8;
     for (const e of this.enemies) {
-      e.speed = Math.min(120, 30 + this.difficulty * 6);
+      e.speed = Math.min(speedCap, this.cfg.enemySpeedMin + this.difficulty * this.cfg.enemySpeedGrow);
     }
   }
 

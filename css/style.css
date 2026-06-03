@@ -90,6 +90,115 @@ canvas {
   animation: pulse 1.6s ease-in-out infinite;
 }
 
+/* ─── 难度选择 ─── */
+.difficulty-panel {
+  margin-top: 2.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+
+.diff-label {
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.diff-buttons {
+  display: flex;
+  gap: clamp(8px, 1.5vw, 16px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.diff-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: clamp(10px, 1.5vw, 16px) clamp(14px, 2vw, 24px);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: clamp(65px, 10vw, 90px);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.diff-btn:hover,
+.diff-btn:active {
+  background: rgba(0, 255, 255, 0.08);
+  border-color: rgba(0, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.15);
+}
+
+.diff-btn:active {
+  transform: translateY(0);
+}
+
+.diff-name {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.1em;
+}
+
+.diff-desc {
+  font-size: clamp(0.55rem, 1.2vw, 0.75rem);
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.08em;
+}
+
+/* 难度按钮各自的颜色主题 */
+.diff-btn[data-diff="easy"]:hover,
+.diff-btn[data-diff="easy"]:active {
+  border-color: rgba(100, 255, 150, 0.5);
+  box-shadow: 0 4px 20px rgba(100, 255, 150, 0.15);
+}
+.diff-btn[data-diff="easy"] .diff-name { color: #64ff96; }
+
+.diff-btn[data-diff="medium"]:hover,
+.diff-btn[data-diff="medium"]:active {
+  border-color: rgba(0, 200, 255, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 200, 255, 0.15);
+}
+.diff-btn[data-diff="medium"] .diff-name { color: #00c8ff; }
+
+.diff-btn[data-diff="hard"]:hover,
+.diff-btn[data-diff="hard"]:active {
+  border-color: rgba(255, 160, 50, 0.5);
+  box-shadow: 0 4px 20px rgba(255, 160, 50, 0.15);
+}
+.diff-btn[data-diff="hard"] .diff-name { color: #ffa032; }
+
+.diff-btn-final:hover,
+.diff-btn-final:active {
+  border-color: rgba(255, 60, 80, 0.6);
+  box-shadow: 0 4px 25px rgba(255, 60, 80, 0.2);
+}
+.diff-btn-final .diff-name { color: #ff3c50; }
+
+/* 游戏结束按钮 */
+.gameover-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 2em;
+}
+
+.go-btn {
+  min-width: clamp(90px, 15vw, 130px);
+}
+
+#btn-restart:hover { border-color: rgba(0, 255, 255, 0.5); box-shadow: 0 4px 20px rgba(0, 255, 255, 0.15); }
+#btn-restart .diff-name { color: #00e5ff; }
+#btn-back-menu:hover { border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1); }
+#btn-back-menu .diff-name { color: rgba(255,255,255,0.7); }
+
 /* ─── HUD ─── */
 #hud {
   align-items: center;

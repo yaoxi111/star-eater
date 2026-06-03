@@ -2,6 +2,74 @@
  * 吞星者 Star Eater — 主游戏逻辑
  */
 
+/* ─── 难度配置 ─── */
+const DIFFICULTY = {
+  easy: {
+    label: '小登',
+    enemySpawnInterval: 6,    // 生成间隔（秒）
+    enemySpeedMin: 20,
+    enemySpeedMax: 40,
+    enemyRadiusMin: 14,
+    enemyRadiusMax: 22,
+    enemyInitial: 2,          // 初始敌人数量
+    enemyMaxBase: 4,          // 最大敌人基数
+    enemyMaxGrow: 1,          // 每级增加的最大敌人
+    enemySpeedGrow: 3,        // 每级速度增长
+    enemyRadiusGrow: 1,       // 每级体型增长
+    difficultyInterval: 18,   // 难度提升间隔（秒）
+    foodCount: 80,
+    foodTarget: 80,
+  },
+  medium: {
+    label: '中登',
+    enemySpawnInterval: 4.5,
+    enemySpeedMin: 30,
+    enemySpeedMax: 60,
+    enemyRadiusMin: 16,
+    enemyRadiusMax: 28,
+    enemyInitial: 3,
+    enemyMaxBase: 8,
+    enemyMaxGrow: 2,
+    enemySpeedGrow: 6,
+    enemyRadiusGrow: 1.5,
+    difficultyInterval: 12,
+    foodCount: 70,
+    foodTarget: 70,
+  },
+  hard: {
+    label: '老登',
+    enemySpawnInterval: 3,
+    enemySpeedMin: 40,
+    enemySpeedMax: 80,
+    enemyRadiusMin: 18,
+    enemyRadiusMax: 35,
+    enemyInitial: 4,
+    enemyMaxBase: 12,
+    enemyMaxGrow: 2,
+    enemySpeedGrow: 8,
+    enemyRadiusGrow: 2,
+    difficultyInterval: 10,
+    foodCount: 60,
+    foodTarget: 60,
+  },
+  asian: {
+    label: '亚洲',
+    enemySpawnInterval: 2,
+    enemySpeedMin: 50,
+    enemySpeedMax: 100,
+    enemyRadiusMin: 20,
+    enemyRadiusMax: 42,
+    enemyInitial: 5,
+    enemyMaxBase: 18,
+    enemyMaxGrow: 3,
+    enemySpeedGrow: 10,
+    enemyRadiusGrow: 2.5,
+    difficultyInterval: 8,
+    foodCount: 50,
+    foodTarget: 50,
+  }
+};
+
 class Game {
   constructor(canvas) {
     this.canvas = canvas;
@@ -17,6 +85,7 @@ class Game {
     this.effects = [];
     this.background = null;
     this.shake = new ScreenShake();
+    this.currentDifficulty = null;
 
     // 统计
     this.score = 0;
@@ -81,7 +150,6 @@ class Game {
       this.inputX = t.clientX;
       this.inputY = t.clientY;
       this.hasInput = true;
-      this._handleClick();
     }, { passive: false });
 
     window.addEventListener('touchmove', e => {
@@ -91,13 +159,27 @@ class Game {
       this.inputY = t.clientY;
     }, { passive: false });
 
-    window.addEventListener('click', () => this._handleClick());
     window.addEventListener('resize', () => this._resize());
-  }
 
-  _handleClick() {
-    if (this.state === 'MENU') this.startGame();
-    else if (this.state === 'GAMEOVER') this.startGame();
+    // 难度选择按钮
+    document.querySelectorAll('.diff-btn[data-diff]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const diff = btn.getAttribute('data-diff');
+        if (DIFFICULTY[diff]) this.startGame(diff);
+      });
+    });
+
+    // 游戏结束按钮
+    document.getElementById('btn-restart').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this.currentDifficulty) this.startGame(this.currentDifficulty);
+    });
+
+    document.getElementById('btn-back-menu').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.showMenu();
+    });
   }
 
   /* ─── 屏幕适配 ─── */
@@ -122,8 +204,9 @@ class Game {
     this.gameoverEl.classList.remove('interactive');
   }
 
-  startGame() {
+  startGame(diffKey) {
     this.state = 'PLAYING';
+    this.currentDifficulty = diffKey;
     this.menuEl.classList.add('hidden');
     this.menuEl.classList.remove('interactive');
     this.hudEl.classList.remove('hidden');
@@ -142,7 +225,7 @@ class Game {
     this.player = new Player(this.width / 2, this.height / 2);
     this.inputX = this.width / 2;
     this.inputY = this.height / 2;
-    this.particles = new ParticleManager(this.width, this.height);
+    this.particles = new ParticleManager(this.width, this.height, DIFFICULTY[diffKey]);
     this._updateHUD();
   }
 
@@ -155,13 +238,16 @@ class Game {
     }
 
     const secs = Math.floor((Date.now() - this.startTime) / 1000);
+    const diffLabel = this.currentDifficulty ? DIFFICULTY[this.currentDifficulty].label : '';
     this.hudEl.classList.add('hidden');
     this.gameoverEl.classList.remove('hidden');
     this.gameoverEl.classList.add('interactive');
     this.finalScoreEl.textContent = this.score;
     this.highScoreEl.textContent = '最高分: ' + this.highScore;
     this.statsEl.innerHTML =
-      '食物: ' + this.foodEaten + ' &nbsp;|&nbsp; 敌人: ' + this.enemiesEaten +
+      '难度: ' + diffLabel +
+      ' &nbsp;|&nbsp; 食物: ' + this.foodEaten +
+      ' &nbsp;|&nbsp; 敌人: ' + this.enemiesEaten +
       '<br>最高连击: ' + this.maxCombo + 'x &nbsp;|&nbsp; 存活: ' + secs + '秒';
   }
 
