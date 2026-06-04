@@ -2,71 +2,71 @@
  * 吞星者 Star Eater — 主游戏逻辑
  */
 
-/* ─── 难度配置 ─── */
+/* ─── 难度配置（10倍系数） ─── */
 const DIFFICULTY = {
   easy: {
     label: '小登',
-    enemySpawnInterval: 6,    // 生成间隔（秒）
-    enemySpeedMin: 20,
-    enemySpeedMax: 40,
-    enemyRadiusMin: 14,
-    enemyRadiusMax: 22,
-    enemyInitial: 2,          // 初始敌人数量
-    enemyMaxBase: 4,          // 最大敌人基数
-    enemyMaxGrow: 1,          // 每级增加的最大敌人
-    enemySpeedGrow: 3,        // 每级速度增长
-    enemyRadiusGrow: 1,       // 每级体型增长
-    difficultyInterval: 18,   // 难度提升间隔（秒）
-    foodCount: 80,
-    foodTarget: 80,
+    enemySpawnInterval: 2,     // 生成间隔（秒）
+    enemySpeedMin: 60,
+    enemySpeedMax: 120,
+    enemyRadiusMin: 22,
+    enemyRadiusMax: 35,
+    enemyInitial: 6,           // 初始敌人数量
+    enemyMaxBase: 15,          // 最大敌人基数
+    enemyMaxGrow: 3,           // 每级增加的最大敌人
+    enemySpeedGrow: 15,        // 每级速度增长
+    enemyRadiusGrow: 3,        // 每级体型增长
+    difficultyInterval: 6,     // 难度提升间隔（秒）
+    foodCount: 25,
+    foodTarget: 25,
   },
   medium: {
     label: '中登',
-    enemySpawnInterval: 4.5,
-    enemySpeedMin: 30,
-    enemySpeedMax: 60,
-    enemyRadiusMin: 16,
-    enemyRadiusMax: 28,
-    enemyInitial: 3,
-    enemyMaxBase: 8,
-    enemyMaxGrow: 2,
-    enemySpeedGrow: 6,
-    enemyRadiusGrow: 1.5,
-    difficultyInterval: 12,
-    foodCount: 70,
-    foodTarget: 70,
+    enemySpawnInterval: 1.5,
+    enemySpeedMin: 90,
+    enemySpeedMax: 180,
+    enemyRadiusMin: 25,
+    enemyRadiusMax: 45,
+    enemyInitial: 10,
+    enemyMaxBase: 25,
+    enemyMaxGrow: 6,
+    enemySpeedGrow: 20,
+    enemyRadiusGrow: 4,
+    difficultyInterval: 4,
+    foodCount: 20,
+    foodTarget: 20,
   },
   hard: {
     label: '老登',
-    enemySpawnInterval: 3,
-    enemySpeedMin: 40,
-    enemySpeedMax: 80,
-    enemyRadiusMin: 18,
-    enemyRadiusMax: 35,
-    enemyInitial: 4,
-    enemyMaxBase: 12,
-    enemyMaxGrow: 2,
-    enemySpeedGrow: 8,
-    enemyRadiusGrow: 2,
-    difficultyInterval: 10,
-    foodCount: 60,
-    foodTarget: 60,
+    enemySpawnInterval: 1,
+    enemySpeedMin: 120,
+    enemySpeedMax: 250,
+    enemyRadiusMin: 30,
+    enemyRadiusMax: 55,
+    enemyInitial: 15,
+    enemyMaxBase: 35,
+    enemyMaxGrow: 8,
+    enemySpeedGrow: 30,
+    enemyRadiusGrow: 5,
+    difficultyInterval: 3,
+    foodCount: 15,
+    foodTarget: 15,
   },
   asian: {
     label: '亚洲',
-    enemySpawnInterval: 2,
-    enemySpeedMin: 50,
-    enemySpeedMax: 100,
-    enemyRadiusMin: 20,
-    enemyRadiusMax: 42,
-    enemyInitial: 5,
-    enemyMaxBase: 18,
-    enemyMaxGrow: 3,
-    enemySpeedGrow: 10,
-    enemyRadiusGrow: 2.5,
-    difficultyInterval: 8,
-    foodCount: 50,
-    foodTarget: 50,
+    enemySpawnInterval: 0.8,
+    enemySpeedMin: 150,
+    enemySpeedMax: 350,
+    enemyRadiusMin: 35,
+    enemyRadiusMax: 70,
+    enemyInitial: 20,
+    enemyMaxBase: 50,
+    enemyMaxGrow: 10,
+    enemySpeedGrow: 40,
+    enemyRadiusGrow: 7,
+    difficultyInterval: 2,
+    foodCount: 10,
+    foodTarget: 10,
   }
 };
 
